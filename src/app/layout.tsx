@@ -4,6 +4,7 @@ import { QueryProvider } from "@/providers/react-query.provider";
 import { ThemeProvider } from "@/providers/theme.provider";
 import "./globals.css";
 import { Toaster } from "@/components/ui";
+import { env } from "@/config/env";
 
 const figtree = Figtree({
   display: "swap",
@@ -24,6 +25,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {env.NODE_ENV === "development" && (
+          <script
+            crossOrigin="anonymous"
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+          />
+        )}
+      </head>
       <body className={`${figtree.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
