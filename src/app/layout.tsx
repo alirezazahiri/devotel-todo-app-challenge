@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
-import { QueryProvider } from "@/providers/react-query.provider";
-import { ThemeProvider } from "@/providers/theme.provider";
+import { QueryProvider, RTKProvider, ThemeProvider } from "@/providers";
 import "./globals.css";
 import { Toaster } from "@/components/ui";
 import { env } from "@/config/env";
@@ -40,7 +39,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryProvider>{children}</QueryProvider>
+          <RTKProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </RTKProvider>
         </ThemeProvider>
         <Toaster />
       </body>
