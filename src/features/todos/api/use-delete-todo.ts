@@ -13,6 +13,14 @@ export const deleteTodoApi = async (todoId: number) => {
   const response = await fetch(`${API_BASE}/todos/${todoId}`, {
     method: "DELETE",
   });
+  if (
+    response.status === 404 &&
+    response.headers.get("content-type")?.includes("application/json")
+  ) {
+    return {
+      id: todoId,
+    };
+  }
   if (!response.ok) throw new Error("Failed to delete todo");
   return response.json() as Promise<Todo>;
 };

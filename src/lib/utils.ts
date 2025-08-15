@@ -3,19 +3,16 @@ import { twMerge } from "tailwind-merge";
 
 export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
-export const debounce = (fn: Function, delay: number) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const debounce = <T extends (...args: any[]) => void>(fn: T, delay: number) => {
   let timeoutId: NodeJS.Timeout;
-  return (...args: any[]) => {
+  return (...args: Parameters<T>) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn.apply(null, args), delay);
+    timeoutId = setTimeout(() => fn(...args), delay);
   };
 };
 
-/**
- * @description Generate a random UUID v4
- * @returns A random UUID v4
- */
-export const generateId = () => {
+export const generateUUIDV4 = () => {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
     (
       +c ^

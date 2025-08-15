@@ -5,7 +5,7 @@ import {
   type ServerActionState,
   serverActionWrapper,
 } from "@/lib/server-action-wrapper";
-import { generateId } from "@/lib/utils";
+import { generateUUIDV4 } from "@/lib/utils";
 import { Todo } from "@/types/todo";
 import { todoSchema } from "../validation/todo.schema";
 
@@ -39,12 +39,12 @@ export const createTodoAction = async (
       throw new Error("Failed to create todo");
     }
 
-    const data = (await response.json()) as Promise<Todo>;
+    const data = await response.json();
     return {
       ...data,
       //   !FIXME: this is a workaround to handle the case where the todo is created by us
       //   ! (because dummyjson doesn't support adding our own todos)
-      id: generateId(),
+      id: generateUUIDV4(),
     };
   });
 };
