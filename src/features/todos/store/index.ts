@@ -5,13 +5,13 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 export type TodosState = {
   items: Todo[];
   filter: TodoFilter;
-  // query: string; // TODO: add search query, its not the priority yet
+  query: string; // TODO: add search query, its not the priority yet
 };
 
 const initialState: TodosState = {
   items: [],
   filter: TodoFilter.ALL,
-  // query: "",
+  query: "",
 };
 
 export const todosSlice = createSlice({
@@ -44,7 +44,17 @@ export const todosSlice = createSlice({
     setFilter: (state, action: PayloadAction<TodoFilter>) => {
       state.filter = action.payload;
     },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.query = action.payload;
+    },
   },
 });
 
-export const { setTodos, addTodo, updateTodo, deleteTodo } = todosSlice.actions;
+export const {
+  setTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  setFilter,
+  setSearchQuery,
+} = todosSlice.actions;

@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector, useHydration } from "@/hooks";
 import { setTodos } from "@/features/todos/store";
 import { useListTodos } from "@/features/todos/api/use-list-todos";
-import { TodoList } from "@/features/todos/components";
-import { Card, CardContent } from "@/components/ui";
+import { TodoList, TodoFilters } from "@/features/todos/components";
+import { Button, Card, CardContent } from "@/components/ui";
 
 export const TodosFeature = () => {
   const dispatch = useAppDispatch();
   const { items } = useAppSelector((state) => state.todos);
   const isHydrated = useHydration();
-  const { data: todosData, isLoading, error } = useListTodos();
+  const { data: todosData, isLoading, error, refetch } = useListTodos();
 
   useEffect(() => {
     if (isHydrated && todosData?.todos && items.length === 0) {
@@ -39,12 +39,14 @@ export const TodosFeature = () => {
         <p className="text-destructive">
           Failed to load todos. Please try again.
         </p>
+        <Button onClick={() => refetch()}>Try again</Button>
       </Card>
     );
   }
 
   return (
-    <div>
+    <div className="space-y-6">
+      <TodoFilters />
       <TodoList isLoading={isLoading && items.length === 0} />
     </div>
   );
