@@ -5,11 +5,12 @@ import { Trash2, GripVertical } from "lucide-react";
 import { Card, CardContent, Button, Checkbox } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import type { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
+import { DeleteConfirmationData } from "@/features/todos/types";
 
 interface TodoItemProps {
   todo: Todo;
   onToggleComplete: (todo: Todo) => void;
-  onDelete: (todo: Todo) => void;
+  onDelete: (todo: DeleteConfirmationData) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps | null;
   isDragging?: boolean;
 }
@@ -69,7 +70,12 @@ export const TodoItem: React.FC<TodoItemProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onDelete(todo)}
+            onClick={() =>
+              onDelete({
+                todoId: todo.id,
+                todoTitle: todo.todo,
+              })
+            }
             className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex-shrink-0"
           >
             <Trash2 className="h-4 w-4" />

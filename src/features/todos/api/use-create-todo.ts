@@ -1,14 +1,12 @@
 "use client";
+
 import { createTodoAction } from "@/features/todos/actions";
 import { TodoInput } from "@/features/todos/validation";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks";
 import { addTodo } from "@/features/todos/store";
 import { Todo } from "@/types/todo";
-import {
-  useActionMutation,
-  UseActionMutationProps,
-} from "@/hooks/use-action-mutation";
+import { useActionMutation, type UseActionMutationProps } from "@/hooks";
 
 export const useCreateTodo = ({
   onSuccess,
