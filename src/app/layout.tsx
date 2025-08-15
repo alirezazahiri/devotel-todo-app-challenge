@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+import { QueryProvider } from "@/providers/react-query.provider";
 import { ThemeProvider } from "@/providers/theme.provider";
 import "./globals.css";
+import { Toaster } from "@/components/ui";
 
 const figtree = Figtree({
   display: "swap",
@@ -29,8 +31,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <QueryProvider>{children}</QueryProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
