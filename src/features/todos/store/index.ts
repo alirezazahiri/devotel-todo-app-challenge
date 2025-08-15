@@ -2,7 +2,7 @@ import { TodoFilter } from "@/enums/todo-filter.enum";
 import { Todo } from "@/types/todo";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type TodosState = {
+export type TodosState = {
   items: Todo[];
   filter: TodoFilter;
   // query: string; // TODO: add search query, its not the priority yet
@@ -14,7 +14,7 @@ const initialState: TodosState = {
   // query: "",
 };
 
-export const todosStore = createSlice({
+export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
@@ -47,4 +47,4 @@ export const todosStore = createSlice({
   },
 });
 
-export const { setTodos, addTodo, updateTodo, deleteTodo } = todosStore.actions;
+export const { setTodos, addTodo, updateTodo, deleteTodo } = todosSlice.actions;
