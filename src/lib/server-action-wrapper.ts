@@ -14,7 +14,6 @@ export const serverActionWrapper = async <T>(
       response,
     };
   } catch (error) {
-    console.error("Server action wrapper error:", error);
     return {
       success: false,
       error: (error as Error).message,

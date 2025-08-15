@@ -17,13 +17,18 @@ export const updateTodoApi = async ({
   id,
   updates,
 }: UpdateTodoInput): Promise<Todo> => {
+  const { id: _, ...newTodo } = updates;
   const response = await fetch(`${API_BASE}/todos/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updates),
+    body: JSON.stringify(newTodo),
   });
-  if (response.status === 404) {
-    // ! FIXME: this is a workaround to handle the case where the todo is created by us
+
+  if (
+    response.status === 404 &&
+    response.headers.get("content-type")?.includes("application/json")
+  ) {
+    // !FIXME: this is a workaround to handle the case where the todo is created by us
     // ! (because dummyjson doesn't support adding our own todos)
     return {
       id,
@@ -32,7 +37,9 @@ export const updateTodoApi = async ({
       userId: updates.userId,
     };
   }
+
   if (!response.ok) throw new Error("Failed to update todo");
+
   return response.json();
 };
 

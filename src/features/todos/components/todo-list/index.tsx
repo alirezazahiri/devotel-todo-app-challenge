@@ -28,7 +28,7 @@ interface TodoListProps {
 
 export const TodoList: React.FC<TodoListProps> = ({ isLoading }) => {
   const { items, filter, query } = useAppSelector((state) => state.todos);
-  const { mutate: updateTodoMutation } = useUpdateTodoStatus();
+  const { mutate: updateTodoMutation, mutateAsync: updateTodoMutationAsync } = useUpdateTodoStatus();
   const { mutateAsync: deleteTodoMutation } = useDeleteTodo();
 
   const {
@@ -76,6 +76,13 @@ export const TodoList: React.FC<TodoListProps> = ({ isLoading }) => {
     updateTodoMutation({
       id: todo.id,
       updates: { ...todo, completed: !todo.completed },
+    });
+  };
+
+  const handleEdit = async (todo: Todo) => {
+    return updateTodoMutationAsync({
+      id: todo.id,
+      updates: { ...todo, todo: todo.todo },
     });
   };
 
@@ -133,6 +140,7 @@ export const TodoList: React.FC<TodoListProps> = ({ isLoading }) => {
                             todo={todo}
                             onToggleComplete={handleToggleComplete}
                             onDelete={openDeleteConfirmation}
+                            onEdit={handleEdit}
                             dragHandleProps={provided.dragHandleProps}
                             isDragging={snapshot.isDragging}
                           />
