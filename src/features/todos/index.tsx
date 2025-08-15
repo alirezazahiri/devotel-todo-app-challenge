@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector, useHydration } from "@/hooks";
 import { setTodos } from "@/features/todos/store";
 import { useListTodos } from "@/features/todos/api/use-list-todos";
-import { TodoList, TodoFilters } from "@/features/todos/components";
+import { TodoList, TodoFilters, TodoForm } from "@/features/todos/components";
 import { Button, Card, CardContent } from "@/components/ui";
 
 export const TodosFeature = () => {
@@ -21,15 +21,19 @@ export const TodosFeature = () => {
 
   if (!isHydrated) {
     return (
-      <Card>
-        <CardContent className="p-4">
-          <div className="animate-pulse space-y-2 min-h-8">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-30 bg-muted rounded-lg" />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="space-y-6">
+        <div className="animate-pulse h-25 bg-muted rounded-lg" />
+        <div className="animate-pulse h-26 bg-muted rounded-lg" />
+        <Card>
+          <CardContent className="p-4">
+            <div className="animate-pulse space-y-2 min-h-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-30 bg-muted rounded-lg" />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -46,6 +50,7 @@ export const TodosFeature = () => {
 
   return (
     <div className="space-y-6">
+      <TodoForm />
       <TodoFilters />
       <TodoList isLoading={isLoading && items.length === 0} />
     </div>

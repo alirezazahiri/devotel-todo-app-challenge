@@ -53,7 +53,7 @@ export const TodoList: React.FC<TodoListProps> = ({ isLoading }) => {
   const handleToggleComplete = async (todo: Todo) => {
     updateTodoMutation({
       id: todo.id,
-      updates: { completed: !todo.completed },
+      updates: { ...todo, completed: !todo.completed },
     });
   };
 

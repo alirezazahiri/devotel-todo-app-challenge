@@ -8,10 +8,10 @@ const { API_BASE } = env;
 
 type UpdateTodoInput = {
   id: number;
-  updates: Partial<Todo>;
+  updates: Todo;
 };
 
-export const updateTodoStatus = async ({
+export const updateTodoApi = async ({
   id,
   updates,
 }: UpdateTodoInput): Promise<Todo> => {
@@ -20,6 +20,16 @@ export const updateTodoStatus = async ({
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(updates),
   });
+  if (response.status === 404) {
+    // ! FIXME: this is a workaround to handle the case where the todo is created by us 
+    // ! (because dummyjson doesn't support adding our own todos)
+    return {
+      id,
+      todo: updates.todo,
+      completed: updates.completed,
+      userId: updates.userId,
+    };
+  }
   if (!response.ok) throw new Error("Failed to update todo");
   return response.json();
 };
@@ -29,7 +39,7 @@ export const useUpdateTodoStatus = () => {
   return useMutation({
     mutationFn: ({ id, updates }: UpdateTodoInput) => {
       dispatch(updateTodo({ id, updates })); // optimistic update
-      return updateTodoStatus({ id, updates });
+      return updateTodoApi({ id, updates });
     },
     onError: (_, variables) => {
       const { id, updates } = variables;
