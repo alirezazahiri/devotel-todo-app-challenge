@@ -7,6 +7,7 @@ import {
 } from "@/lib/server-action-wrapper";
 import { generateId } from "@/lib/utils";
 import { Todo } from "@/types/todo";
+import { todoSchema } from "../validation/todo.schema";
 
 const { API_BASE } = env;
 
@@ -17,6 +18,11 @@ export const createTodoAction = async (
   const todo = formData.get("todo") as string;
 
   return await serverActionWrapper(async () => {
+    const validatedResult = todoSchema.safeParse({ todo });
+    if (!validatedResult.success) {
+      throw new Error(validatedResult.error.message);
+    }
+
     const response = await fetch(`${API_BASE}/todos/add`, {
       method: "POST",
       body: JSON.stringify({

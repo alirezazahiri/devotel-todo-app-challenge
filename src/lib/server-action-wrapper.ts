@@ -1,10 +1,12 @@
 export type ServerActionState<T> = {
-    success: boolean;
-    response?: T;
-    error?: string;
-}
+  success: boolean;
+  response?: T;
+  error?: string;
+};
 
-export const serverActionWrapper = async <T>(action: () => Promise<T>): Promise<ServerActionState<T>> => {
+export const serverActionWrapper = async <T>(
+  action: () => Promise<T>
+): Promise<ServerActionState<T>> => {
   try {
     const response = await action();
     return {

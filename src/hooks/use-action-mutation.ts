@@ -22,16 +22,21 @@ export const useActionMutation = <T>(
   action: Action<T>,
   { initialState, onSuccess, onError }: UseActionMutationProps<T>
 ): UseActionMutationReturn<T> => {
-  const [formState, serverAction] = useActionState(action, initialState || null);
+  const [formState, serverAction] = useActionState(
+    action,
+    initialState || null
+  );
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
+    if (isPending) return;
+
     if (formState && !formState.success && formState.error) {
       onError?.(formState, formState.error);
     } else if (formState && formState.success && formState.response) {
       onSuccess?.(formState);
     }
-  }, [formState, onSuccess, onError]);
+  }, [isPending, formState]);
 
   const mutate = (payload: FormData) => {
     startTransition(async () => {

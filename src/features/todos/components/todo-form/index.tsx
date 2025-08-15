@@ -11,22 +11,26 @@ export const TodoForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
   } = useForm<TodoInput>({
     resolver: zodResolver(todoSchema),
+    defaultValues: {
+      todo: "",
+    },
+    mode: "onChange",
   });
 
-  const { mutate, isPending } = useCreateTodo({
+  const { mutate: onSubmit, isPending } = useCreateTodo({
     onSuccess: () => {
-      reset();
+      setValue("todo", "");
     },
   });
 
   return (
     <Card>
       <CardContent className="p-4">
-        <form onSubmit={handleSubmit(mutate)} className="flex gap-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex gap-3">
           <div className="flex-1">
             <Input
               {...register("todo")}
