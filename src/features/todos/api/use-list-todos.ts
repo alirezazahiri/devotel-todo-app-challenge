@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { env } from "@/config/env";
 import { Todo } from "@/types/todo";

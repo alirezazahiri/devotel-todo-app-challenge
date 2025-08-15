@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation } from "@tanstack/react-query";
 import type { Todo } from "@/types/todo";
 import { env } from "@/config/env";
@@ -21,7 +23,7 @@ export const updateTodoApi = async ({
     body: JSON.stringify(updates),
   });
   if (response.status === 404) {
-    // ! FIXME: this is a workaround to handle the case where the todo is created by us 
+    // ! FIXME: this is a workaround to handle the case where the todo is created by us
     // ! (because dummyjson doesn't support adding our own todos)
     return {
       id,
