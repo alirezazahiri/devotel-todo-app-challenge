@@ -2,10 +2,10 @@
 
 import { useAppSelector } from "@/hooks";
 import { TodoItem } from "@/features/todos/components/todo-item";
-import { Loader2 } from "lucide-react";
-import type { Todo } from "@/types/todo";
 import { Card, CardContent } from "@/components/ui";
+import { LoadingState, EmptyState } from "@/components/shared";
 import { useUpdateTodoStatus } from "@/features/todos/api";
+import type { Todo } from "@/types/todo";
 
 interface TodoListProps {
   isLoading: boolean;
@@ -26,24 +26,12 @@ export const TodoList: React.FC<TodoListProps> = ({ isLoading }) => {
     console.log("delete todo", todo);
   };
 
-  if (isLoading || items.length === 0) {
-    return (
-      <Card>
-        <CardContent className="p-8 text-center">
-          {isLoading && (
-            <>
-              <Loader2 className="size-8 animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground">Loading todos...</p>
-            </>
-          )}
-          {items.length === 0 && (
-            <>
-              <p className="text-muted-foreground">No todos available</p>
-            </>
-          )}
-        </CardContent>
-      </Card>
-    );
+  if (isLoading) {
+    return <LoadingState message="Loading todos..." />;
+  }
+
+  if (items.length === 0) {
+    return <EmptyState message="No todos available" />;
   }
 
   return (
