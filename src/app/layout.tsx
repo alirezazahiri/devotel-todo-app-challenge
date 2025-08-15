@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
-import { ThemeProvider } from "@/providers/theme.provider";
+import { QueryProvider, RTKProvider, ThemeProvider } from "@/providers";
 import "./globals.css";
+import { Toaster } from "@/components/ui";
+import { env } from "@/config/env";
 
 const figtree = Figtree({
   display: "swap",
@@ -22,6 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {env.NODE_ENV === "development" && (
+          <script
+            crossOrigin="anonymous"
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+          />
+        )}
+      </head>
       <body className={`${figtree.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
@@ -29,8 +39,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <RTKProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </RTKProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
