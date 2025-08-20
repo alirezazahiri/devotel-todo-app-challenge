@@ -50,7 +50,7 @@ export const TodoList: React.FC<TodoListProps> = ({ isLoading }) => {
   const filteredTodos = useMemo(() => {
     let filtered = items;
 
-    if (query.trim()) {
+    if (query && query.trim()) {
       filtered = filtered.filter((todo) =>
         todo.todo.toLowerCase().includes(query.toLowerCase())
       );

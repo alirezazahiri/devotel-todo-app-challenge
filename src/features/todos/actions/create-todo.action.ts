@@ -3,8 +3,8 @@
 import { env } from "@/config/env";
 import {
   type ServerActionState,
-  serverActionWrapper,
-} from "@/lib/server-action-wrapper";
+  envelopeServerAction,
+} from "@luminex/use-action-mutation";
 import { generateUUIDV4 } from "@/lib/utils";
 import { Todo } from "@/types/todo";
 import { todoSchema } from "../validation/todo.schema";
@@ -17,7 +17,7 @@ export const createTodoAction = async (
 ) => {
   const todo = formData.get("todo") as string;
 
-  return await serverActionWrapper(async () => {
+  return await envelopeServerAction(async () => {
     const validatedResult = todoSchema.safeParse({ todo });
     if (!validatedResult.success) {
       throw new Error(validatedResult.error.message);

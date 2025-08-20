@@ -19,7 +19,7 @@ export const useReorderTodos = ({
   const dispatch = useAppDispatch();
 
   const reorder = (sourceIndex: number, destinationIndex: number) => {
-    if (filter === TodoFilter.ALL && !query.trim()) {
+    if (filter === TodoFilter.ALL && !(query && query.trim())) {
       const reorderedItems = Array.from(allTodos);
       const [movedTodo] = reorderedItems.splice(sourceIndex, 1);
       reorderedItems.splice(destinationIndex, 0, movedTodo);

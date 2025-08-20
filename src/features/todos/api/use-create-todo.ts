@@ -6,7 +6,10 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks";
 import { addTodo } from "@/features/todos/store";
 import { Todo } from "@/types/todo";
-import { useActionMutation, type UseActionMutationProps } from "@/hooks";
+import {
+  useActionMutation,
+  type UseActionMutationProps,
+} from "@luminex/use-action-mutation";
 
 export const useCreateTodo = ({
   onSuccess,
